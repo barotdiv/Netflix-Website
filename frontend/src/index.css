@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.text-stroke-white {
+  -webkit-text-stroke: 2px white;
+  color: black
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
