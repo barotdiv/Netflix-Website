@@ -1,39 +1,49 @@
 import React from "react";
 
 function Footer() {
+    const footerColumns = [
+        [
+            { id: "col1-faq", text: "FAQ" },
+            { id: "col1-help", text: "Help" },
+            { id: "col1-center", text: "Center" },
+            { id: "col1-account", text: "Account" },
+            { id: "col1-media", text: "Media" },
+        ],
+        [
+            { id: "col2-faq", text: "FAQ" },
+            { id: "col2-help", text: "Help" },
+            { id: "col2-center", text: "Center" },
+            { id: "col2-account", text: "Account" },
+            { id: "col2-media", text: "Media" },
+        ],
+        [
+            { id: "col3-faq", text: "FAQ" },
+            { id: "col3-help", text: "Help" },
+            { id: "col3-center", text: "Center" },
+            { id: "col3-account", text: "Account" },
+            { id: "col3-media", text: "Media" },
+        ],
+        [
+            { id: "col4-faq", text: "FAQ" },
+            { id: "col4-help", text: "Help" },
+            { id: "col4-center", text: "Center" },
+            { id: "col4-account", text: "Account" },
+            { id: "col4-media", text: "Media" },
+        ],
+    ];
+
     return (
         <div className="pb-20 text-[16px] text-gray-400">
             <div className="  underline">
                 <div className="mb-10">Questions? Contact us.</div>
                 <div className="flex justify-between">
-                    <div className="w-[200px] list-none">
-                        <li>FAQ</li>
-                        <li>Help</li>
-                        <li>Center</li>
-                        <li>Account</li>
-                        <li>Media</li>
-                    </div>
-                    <div className="w-[200px] list-none">
-                        <li>FAQ</li>
-                        <li>Help</li>
-                        <li>Center</li>
-                        <li>Account</li>
-                        <li>Media</li>
-                    </div>
-                    <div className="w-[200px] list-none">
-                        <li>FAQ</li>
-                        <li>Help</li>
-                        <li>Center</li>
-                        <li>Account</li>
-                        <li>Media</li>
-                    </div>
-                    <div className="w-[200px] list-none">
-                        <li>FAQ</li>
-                        <li>Help</li>
-                        <li>Center</li>
-                        <li>Account</li>
-                        <li>Media</li>
-                    </div>
+                    {footerColumns.map((column, colIndex) => (
+                        <div key={`col-${colIndex}`} className="w-[200px] list-none">
+                            {column.map((link) => (
+                                <li key={link.id}>{link.text}</li>
+                            ))}
+                        </div>
+                    ))}
                 </div>
 
                 <div>
