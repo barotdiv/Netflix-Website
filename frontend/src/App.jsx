@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Browse from "./pages/Browse";
 import PrivateRoute from "./components/PrivateRoute";
 
+
 const App = () => {
   return (
     <Router>
