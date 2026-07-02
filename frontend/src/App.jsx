@@ -1,27 +1,29 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
+import MoviePage from "./pages/Movies";
+import Netflix from "./pages/Netflix";
+import Player from "./pages/Player";
 import Signup from "./pages/Signup";
-import Browse from "./pages/Browse";
-import PrivateRoute from "./components/PrivateRoute";
+import TVShows from "./pages/TVShows";
+import UserListedMovies from "./pages/UserListedMovies";
 
 
-const App = () => {
+function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/browse" element={
-          <PrivateRoute>
-            <Browse />
-          </PrivateRoute>
-        }
-        />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/player" element={<Player />} />
+        <Route exact path="/tv" element={<TVShows />} />
+        <Route exact path="/movies" element={<MoviePage />} />
+        <Route exact path="/new" element={<Player />} />
+        <Route exact path="/mylist" element={<UserListedMovies />} />
+        <Route exact path="/" element={<Netflix />} />
       </Routes>
-    </Router>
-  );
-};
+    </BrowserRouter>
+  )
+}
 
 export default App;
