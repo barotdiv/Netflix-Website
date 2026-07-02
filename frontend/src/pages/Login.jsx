@@ -3,7 +3,7 @@ import styled from "styled-components";
 import logo from "../assets/logo.png";
 import background from "../assets/login.jpg";
 import { useNavigate } from "react-router-dom";
-import BackgroundImg from "../components/BackgroundImage";
+import BackgroundImage from "../components/BackgroundImage";
 import Header from "../components/Header";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
