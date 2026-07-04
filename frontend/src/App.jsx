@@ -8,7 +8,6 @@ import Signup from "./pages/Signup";
 import TVShows from "./pages/TVShows";
 import UserListedMovies from "./pages/UserListedMovies";
 
-
 function App() {
   return (
     <BrowserRouter>
