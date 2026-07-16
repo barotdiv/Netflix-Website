@@ -1,4 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { collection, doc, getDoc, updateDoc, arrayUnion, arrayRemove, setDoc } from "firebase/firestore";
+import { db } from "../utils/firebase-config";
 import axios from "axios";
 import { API_KEY, TMDB_BASE_URL } from "../utils/constants";
 
@@ -91,23 +93,28 @@ export const searchMovies = createAsyncThunk(
 export const getUsersLikedMovies = createAsyncThunk(
     "netflix/getLiked",
     async (email) => {
-        const {
-            data: { movies },
-        } = await axios.get(`http://localhost:5000/api/user/liked/${email}`);
-        return movies;
+        const userRef = doc(db, "users", email);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+            return userDoc.data().movies;
+        } else {
+            return [];
+        }
     }
 );
 
 export const removeMovieFromLiked = createAsyncThunk(
     "netflix/deleteLiked",
-    async ({ movieId, email }) => {
-        const {
-            data: { movies },
-        } = await axios.put("http://localhost:5000/api/user/remove", {
-            email,
-            movieId,
-        });
-        return movies;
+    async ({ movieId, email }, thunkAPI) => {
+        const userRef = doc(db, "users", email);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+            const movies = userDoc.data().movies;
+            const updatedMovies = movies.filter((movie) => movie.id !== movieId);
+
+            await updateDoc(userRef, { movies: updatedMovies });
+            return updatedMovies;
+        }
     }
 );
 
@@ -142,4 +149,4 @@ export const store = configureStore({
         netflix: NetflixSlice.reducer,
     },
 });
-
+
