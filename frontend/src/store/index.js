@@ -72,6 +72,22 @@ export const fetchMovies = createAsyncThunk(
     }
 );
 
+export const searchMovies = createAsyncThunk(
+    "netflix/search",
+    async (searchQuery, thunkAPI) => {
+        const {
+            netflix: { genres },
+        } = thunkAPI.getState();
+        const { data: { results } } = await axios.get(
+            `${TMDB_BASE_URL}/search/multi?api_key=${API_KEY}&query=${searchQuery}`
+        );
+        const moviesArray = [];
+        createArrayFromRawData(results, moviesArray, genres);
+        return moviesArray;
+    }
+);
+
+
 export const getUsersLikedMovies = createAsyncThunk(
     "netflix/getLiked",
     async (email) => {
@@ -103,6 +119,9 @@ const NetflixSlice = createSlice({
             state.genres = action.payload;
             state.genresLoaded = true;
         });
+        builder.addCase(searchMovies.fulfilled, (state, action) => {
+            state.movies = action.payload;
+        });
         builder.addCase(fetchMovies.fulfilled, (state, action) => {
             state.movies = action.payload;
         });
@@ -123,5 +142,4 @@ export const store = configureStore({
         netflix: NetflixSlice.reducer,
     },
 });
-
-export const { setGenres, setMovies } = NetflixSlice.actions;
+
