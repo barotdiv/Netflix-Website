@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       'firebase/app': path.resolve(__dirname, 'src/utils/firebase-mock.js'),
       'firebase/auth': path.resolve(__dirname, 'src/utils/firebase-mock.js'),
+      'firebase/firestore': path.resolve(__dirname, 'src/utils/firebase-mock.js'),
     }
   }
 })

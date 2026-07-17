@@ -50,3 +50,64 @@ export function signOut(auth) {
   listeners.forEach(cb => cb(null));
   return Promise.resolve();
 }
+
+// Mock Firestore
+export function getFirestore() {
+  return {};
+}
+
+const mockDatabase = {
+  users: {}
+};
+
+export function collection(db, path) {
+  return path;
+}
+
+export function doc(db, collectionName, id) {
+  return { collectionName, id };
+}
+
+export async function getDoc(docRef) {
+  const collection = mockDatabase[docRef.collectionName];
+  const data = collection ? collection[docRef.id] : undefined;
+  return {
+    exists: () => !!data,
+    data: () => data
+  };
+}
+
+export async function setDoc(docRef, data) {
+  if (!mockDatabase[docRef.collectionName]) {
+    mockDatabase[docRef.collectionName] = {};
+  }
+  mockDatabase[docRef.collectionName][docRef.id] = data;
+}
+
+export async function updateDoc(docRef, data) {
+  if (!mockDatabase[docRef.collectionName]) {
+    mockDatabase[docRef.collectionName] = {};
+  }
+  const existing = mockDatabase[docRef.collectionName][docRef.id] || {};
+  
+  let newData = { ...data };
+  for (const key in newData) {
+    if (newData[key] && newData[key]._isMockArrayUnion) {
+      const currentArray = existing[key] || [];
+      newData[key] = [...currentArray, newData[key].val];
+    } else if (newData[key] && newData[key]._isMockArrayRemove) {
+      const currentArray = existing[key] || [];
+      newData[key] = currentArray.filter(item => item.id !== newData[key].val.id);
+    }
+  }
+  
+  mockDatabase[docRef.collectionName][docRef.id] = { ...existing, ...newData };
+}
+
+export function arrayUnion(val) {
+  return { _isMockArrayUnion: true, val };
+}
+
+export function arrayRemove(val) {
+  return { _isMockArrayRemove: true, val };
+}
