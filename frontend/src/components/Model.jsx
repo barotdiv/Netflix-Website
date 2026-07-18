@@ -1,4 +1,4 @@
-import Reacr, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
