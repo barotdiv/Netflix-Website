@@ -44,7 +44,7 @@ export default function Modal({ show, onClose, movieId }) {
                                 Rating: {Math.round(movieDetails.vote_average * 10)}% Match
                             </p>
                             <p className="overview">{movieDetails.overview}</p>
-                            <div className="geners">{movieDetails.genres?.map(g => (
+                            <div className="genres">{movieDetails.genres?.map(g => (
                                 <span key={g.id}>{g.name}</span>
                             ))}
                             </div>
