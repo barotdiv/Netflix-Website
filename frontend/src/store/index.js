@@ -14,7 +14,7 @@ export const getGenres = createAsyncThunk("netflix/genres", async () => {
     const {
         data: { genres },
     } = await axios.get(
-        "https://api.themoviedb.org/3/genre/movie/list?api_key=e9a412f9fa8269394e0a57e7fce85b82"
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=e9a412f9fa8269394e0a57e7fce85b82`
     );
     return genres;
 });
@@ -67,7 +67,7 @@ export const fetchMovies = createAsyncThunk(
             netflix: { genres },
         } = thunkAPI.getState();
         return getRawData(
-            `${TMDB_BASE_URL}/trending/${type}/week?api_key=e9a412f9fa8269394e0a57e7fce85b82`,
+            `https://api.themoviedb.org/3/trending/${type}/week?api_key=e9a412f9fa8269394e0a57e7fce85b82`,
             genres,
             true
         );
@@ -81,7 +81,7 @@ export const searchMovies = createAsyncThunk(
             netflix: { genres },
         } = thunkAPI.getState();
         const { data: { results } } = await axios.get(
-            `${TMDB_BASE_URL}/search/multi?api_key=e9a412f9fa8269394e0a57e7fce85b82&query=${searchQuery}`
+            `https://api.themoviedb.org/3/search/multi?api_key=e9a412f9fa8269394e0a57e7fce85b82&query=${searchQuery}`
         );
         const moviesArray = [];
         createArrayFromRawData(results, moviesArray, genres);
