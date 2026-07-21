@@ -14,7 +14,7 @@ export const getGenres = createAsyncThunk("netflix/genres", async () => {
     const {
         data: { genres },
     } = await axios.get(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=e9a412f9fa8269394e0a57e7fce85b82`
+        `${TMDB_BASE_URL}/genre/movie/list?api_key=${API_KEY}`
     );
     return genres;
 });
@@ -54,7 +54,7 @@ export const fetchDataByGenre = createAsyncThunk(
             netflix: { genres },
         } = thunkAPI.getState();
         return getRawData(
-            `https://api.themoviedb.org/3/discover/${type}?api_key=e9a412f9fa8269394e0a57e7fce85b82&with_genres=${genre}`,
+            `${TMDB_BASE_URL}/discover/${type}?api_key=${API_KEY}&with_genres=${genre}`,
             genres
         );
     }
