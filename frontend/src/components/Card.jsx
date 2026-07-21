@@ -13,8 +13,6 @@ import { useDispatch } from "react-redux";
 import { removeMovieFromLiked } from "../store";
 import video from "../assets/video.mp4";
 import Model from "./Model";
-import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
-import { db } from "../utils/firebase-config";
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
   const navigate = useNavigate();
@@ -31,17 +29,10 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
 
   const addToList = async () => {
     try {
-      const userRef = doc(db, "users", email);
-      const userDoc = await getDoc(userRef);
-      if (userDoc.exists()) {
-        await updateDoc(userRef, {
-          movies: arrayUnion(movieData)
-        });
-      } else {
-        await setDoc(userRef, {
-          movies: [movieData]
-        });
-      }
+      await axios.post("http://localhost:5000/api/user/add", {
+        email,
+        data: movieData,
+      });
       alert("Movie added to My List!");
     } catch (error) {
       console.error("Error adding to list:", error);
