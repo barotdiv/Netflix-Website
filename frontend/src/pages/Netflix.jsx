@@ -16,6 +16,7 @@ import Slider from "../components/Slider";
 
 function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const movies = useSelector((state) => state.netflix.movies);
   const genres = useSelector((state) => state.netflix.genres);
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
@@ -63,7 +64,8 @@ function Netflix() {
               <FaPlay />
               Play
             </button>
-            <button className="flex j-center a-center"
+            <button
+              className="flex j-center a-center"
               onClick={() => setShowModal(true)}
             >
               <AiOutlineInfoCircle />
@@ -73,6 +75,11 @@ function Netflix() {
         </div>
       </div>
       <Slider movies={movies} />
+      <Model
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        movieId={movies[0]?.id}
+      />
     </Container>
   );
 }
