@@ -7,7 +7,6 @@ import Player from "./pages/Player";
 import Signup from "./pages/Signup";
 import TVShows from "./pages/TVShows";
 import UserListedMovies from "./pages/UserListedMovies";
-import Search from "./pages/Search";
 
 function App() {
   return (
@@ -15,13 +14,12 @@ function App() {
       <Routes>
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
-        <Route exact path="/player/:id" element={<Player />} />
+        <Route exact path="/player" element={<Player />} />
         <Route exact path="/tv" element={<TVShows />} />
         <Route exact path="/movies" element={<MoviePage />} />
         <Route exact path="/new" element={<Player />} />
         <Route exact path="/mylist" element={<UserListedMovies />} />
         <Route exact path="/" element={<Netflix />} />
-        <Route exact path="/search" element={<Search />} />
       </Routes>
     </BrowserRouter>
   )

@@ -12,14 +12,13 @@ import { firebaseAuth } from "../utils/firebase-config";
 import { useDispatch } from "react-redux";
 import { removeMovieFromLiked } from "../store";
 import video from "../assets/video.mp4";
-import Model from "./Model";
+
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isHovered, setIsHovered] = useState(false);
   const [email, setEmail] = useState(undefined);
-  const [showModal, setShowModal] = useState(false);
 
   onAuthStateChanged(firebaseAuth, (currentUser) => {
     if (currentUser) {
@@ -33,7 +32,6 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
         email,
         data: movieData,
       });
-      alert("Movie added to My List!");
     } catch (error) {
       console.error("Error adding to list:", error);
     }
@@ -105,11 +103,6 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
           </div>
         </div>
       )}
-      <Model
-        show={showModal}
-        onClose={() => setShowModal(false)}
-        movieId={movieData.id}
-      />
     </Container>
   );
 });
