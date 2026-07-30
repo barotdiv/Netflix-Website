@@ -8,7 +8,6 @@ import { Toaster } from "react-hot-toast"
 import { useAuthStore } from "./store/authStore"
 import { useEffect } from "react"
 import AIRecommendations from "./pages/AIRecommendations"
-import './App.css'
 
 function App() {
   const { fetchUser, fetchingUser } = useAuthStore();
