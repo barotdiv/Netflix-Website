@@ -7,7 +7,7 @@ import SignUp from "./pages/SignUp"
 import { Toaster } from "react-hot-toast"
 import { useAuthStore } from "./store/authStore"
 import { useEffect } from "react"
-import AIRecommandations from "./pages/AIRecommandations"
+import AIRecommendations from "./pages/AIRecommendations"
 import './App.css'
 
 function App() {
