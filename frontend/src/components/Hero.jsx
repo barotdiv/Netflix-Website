@@ -1,17 +1,20 @@
 import { Bookmark, Play } from "lucide-react"
-import HeroBg from "../assets/herobg2.jpg"
 import { useEffect, useState } from "react"
 import { Link } from "react-router"
 
+const tmdbToken = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN || "YOUR_TOKEN_HERE"
+
+const options = {
+    method: "GET",
+    headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${tmdbToken}`
+    }
+}
+
 const Hero = () => {
     const [movie, setMovie] = useState(null)
-    const options = {
-        method: "GET",
-        headers: {
-            accept: "application/json",
-            Authorization: "Bearer YOUR_TOKEN_HERE"
-        }
-    }
+
     useEffect(() => {
         fetch(
             "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
@@ -32,7 +35,7 @@ const Hero = () => {
     }
 
     return (
-        <div className="text-white-relative">
+        <div className="text-white relative">
             <img
                 src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
                 alt="bg-img"

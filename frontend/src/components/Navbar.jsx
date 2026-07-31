@@ -6,16 +6,16 @@ import { useState } from "react"
 import { toast } from "react-hot-toast"
 
 const Navbar = () => {
-    const { user, logOut } = useAuthStore()
+    const { user, logout } = useAuthStore()
     const [showMenu, setShowMenu] = useState(false)
 
-    const avatarUrl = user ? `https://api.dicebar.com/7.x/initials/svg?seed=${encodeURIComponent(
+    const avatarUrl = user ? `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(
         user.username
     )}`
         : ""
 
     const handleLogout = async () => {
-        const { message } = await logOut()
+        const { message } = await logout()
         toast.success(message)
         setShowMenu(false)
     }
@@ -36,8 +36,8 @@ const Navbar = () => {
                 <li className="cursor-pointer hover:text-[#e50914]">Movies</li>
                 <li className="cursor-pointer hover:text-[#e50914]">Anime</li>
                 <li className="cursor-pointer hover:text-[#e50914]">Games</li>
-                <li className="cursor-pointer hover:text-[#e50914]">New & Poular</li>
-                <li className="cursor-pointer hover:text-[#e50914]">Upcomig</li>
+                <li className="cursor-pointer hover:text-[#e50914]">New & Popular</li>
+                <li className="cursor-pointer hover:text-[#e50914]">Upcoming</li>
             </ul>
 
             <div className="flex items-center space-x-4 relative">
@@ -46,21 +46,21 @@ const Navbar = () => {
                     <Search className="absolute top-2 right-4 w-5 h-5" />
                 </div>
 
-                <Link to={user ? "ai-recommandations" : "signin"}>
-                    <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer">
+                <Link to={user ? "/ai-recommandations" : "/signin"}>
+                    <button className="bg-[#e50914] px-5 py-2 text-white cursor-pointer rounded">
                         Get AI Movie Picks
                     </button>
                 </Link>
 
                 {!user ? (
                     <Link to={"/signin"}>
-                        <button className="border border-[#333333] py-2 px-4 cursor-pointer">
+                        <button className="border border-[#333333] py-2 px-4 cursor-pointer rounded">
                             Sign In
                         </button>
                     </Link>
                 ) : (
                     <div className="text-white">
-                        <img src={avatarUrl} alt="" className="w-10 h-10 rounded-full border-2border-[#e50914] cursor-pointer" onClick={() => setShowMenu(!showMenu)} />
+                        <img src={avatarUrl} alt="" className="w-10 h-10 rounded-full border-2 border-[#e50914] cursor-pointer" onClick={() => setShowMenu(!showMenu)} />
                         {showMenu && (
                             <div className="absolute right-0 mt-2 w-64 bg-[#232323] bg-opacity-95 rounded-lg z-50 shadow-lg py-4 px-3 flex flex-col gap-2 border border-[#333333]">
                                 <div className="flex flex-col items-center mb-2">

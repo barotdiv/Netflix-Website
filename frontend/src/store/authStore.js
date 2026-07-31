@@ -27,7 +27,7 @@ export const useAuthStore = create((set) => ({
         } catch (error) {
             set({
                 isLoading: false,
-                error: error.response.data.message || "Error Signing up",
+                error: error.response?.data?.message || "Error Signing up",
             });
 
             throw error;
@@ -55,7 +55,7 @@ export const useAuthStore = create((set) => ({
         } catch (error) {
             set({
                 isLoading: false,
-                error: error.response.data.message || "Error logging in",
+                error: error.response?.data?.message || "Error logging in",
             });
 
             throw error;
@@ -66,16 +66,14 @@ export const useAuthStore = create((set) => ({
         set({ fetchingUser: true, error: null });
 
         try {
-            const response = await axios.get(`${API_URL}/fetch-user`);
+            const response = await axios.get(`${API_URL}/fetch-user`, { timeout: 8000 });
             set({ user: response.data.user, fetchingUser: false });
-        } catch (error) {
+        } catch {
             set({
                 fetchingUser: false,
                 error: null,
                 user: null,
             });
-
-            throw error;
         }
     },
 
@@ -96,7 +94,7 @@ export const useAuthStore = create((set) => ({
         } catch (error) {
             set({
                 isLoading: false,
-                error: error.response.data.message || "Error logging out",
+                error: error.response?.data?.message || "Error logging out",
             });
 
             throw error;

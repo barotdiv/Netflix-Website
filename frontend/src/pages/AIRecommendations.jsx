@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { getAIRecommendation } from "../lib/AIModel"
 import RecommendedMovies from "../components/RecommandedMovies"
@@ -21,7 +21,7 @@ const steps = [
         name: "mood",
         label: "What's your current mood?",
         options: [
-            "Exicted",
+            "Excited",
             "Relaxed",
             "Thoughtful",
             "Scared",
@@ -30,7 +30,7 @@ const steps = [
         ],
     },
     {
-        name: "decade",
+        name: "language",
         label: "Preferred language?",
         options: ["English", "Korean", "Spanish", "French", "Other"],
     },
@@ -71,19 +71,16 @@ const AIRecommendations = () => {
     const generateRecommendations = async () => {
         if (!inputs) {
             toast("Please enter your inputs.")
+            return
         }
         setIsLoading(true)
 
         const userPrompt = `Given the following user inputs: 
-        -Decade: ${inputs.decade} 
         -Genre: ${inputs.genre} 
         -Language: ${inputs.language} 
         -Length: ${inputs.length} 
         -Mood: ${inputs.mood} 
-        Recommend 10 ${inputs.mood.toLowerCase()} ${inputs.language
-            }-language ${inputs.genre.toLowerCase()} movies released in the ${inputs.decade
-            } with a runtime between ${inputs.length
-            }. Return the list as plain JSON array of movie titles only, No extra, No explanations, no code blocks, no markdown, just the JSON array.
+        Recommend 10 ${inputs.mood ? inputs.mood.toLowerCase() : ''} ${inputs.language || ''}-language ${inputs.genre ? inputs.genre.toLowerCase() : ''} movies with a runtime of ${inputs.length || ''}. Return the list as plain JSON array of movie titles only, No extra, No explanations, no code blocks, no markdown, just the JSON array.
         example:
         [
             "Movie Title 1",
@@ -95,7 +92,7 @@ const AIRecommendations = () => {
             "Movie Title 7",
             "Movie Title 8",
             "Movie Title 9",
-            "Movie Title 10",
+            "Movie Title 10"
         ]`
 
         const result = await getAIRecommendation(userPrompt)
@@ -104,8 +101,9 @@ const AIRecommendations = () => {
 
         if (result) {
             const cleanedResult = result
-                .replace(/```json\n/i, "")
-                .replace(/\n```/i, "")
+                .replace(/```json/gi, "")
+                .replace(/```/g, "")
+                .trim()
 
             try {
                 const recommendationArray = JSON.parse(cleanedResult)
@@ -129,7 +127,7 @@ const AIRecommendations = () => {
                     <RecommendedMovies movieTitles={recommendation} />
                 </div>
             ) : (
-                <div className="relative w-full max-w-md-auto rounded-2xl bg-[#181818]/90 shadow-2xl border border-[#333] px-8 py-10 mt-4 flex flex-col items-center min-h-[480px]">
+                <div className="relative w-full max-w-md mx-auto rounded-2xl bg-[#181818]/90 shadow-2xl border border-[#333] px-8 py-10 mt-4 flex flex-col items-center min-h-[480px]">
                     <h2 className="text-3xl font-extrabold mb-8 text-center text-white tracking-tight drop-shadow-lg">
                         AI Movie Recommendation
                     </h2>

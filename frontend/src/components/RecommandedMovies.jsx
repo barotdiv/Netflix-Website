@@ -1,42 +1,52 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router"
 
-const RecommandedMovies = ({ movieTitles }) => {
-    const options = {
-        method: "GET",
-        headers: {
-            accept: "application/json",
-            Authorization: "Bearer YOUR_TOKEN_HERE"
-        },
+const tmdbToken = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN || "YOUR_TOKEN_HERE"
+
+const options = {
+    method: "GET",
+    headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${tmdbToken}`
+    },
+}
+
+const fetchMovie = async (title) => {
+    const encodedTitle = encodeURIComponent(title)
+    const url = `https://api.themoviedb.org/3/search/movie?query=${encodedTitle}&include_adult=false&language=en-US&page=1`
+
+    try {
+        const res = await fetch(url, options)
+        const data = await res.json()
+        return data.results?.[0] || null
+    } catch (error) {
+        console.error("Error fetching movie:", error)
+        return null
     }
+}
+
+const RecommandedMovies = ({ movieTitles }) => {
     const [movies, setMovies] = useState([])
     const [loading, setLoading] = useState(true)
 
-    const fetchMovie = async (title) => {
-        const encodedTitle = encodeURIComponent(title)
-        const url = `https://api.themoviedb.org/3/search/movie?query=${encodedTitle}&include_adult=false&language=en-US&page=1`
-
-        try {
-            const res = await fetch(url, options)
-            const data = await res.json()
-            return data.results?.[0] || null
-        } catch (error) {
-            console.error("Error fetching movie:", error)
-            return null
-        }
-    }
     useEffect(() => {
+        let isMounted = true
+        if (!movieTitles?.length) {
+            return
+        }
         const loadMovies = async () => {
             setLoading(true)
             const results = await Promise.all(
                 movieTitles.map((title) => fetchMovie(title))
             )
-            setMovies(results.filter(Boolean))
-            setLoading(false)
-            console.log(movies)
+            if (isMounted) {
+                setMovies(results.filter(Boolean))
+                setLoading(false)
+            }
         }
-        if (movieTitles?.length) {
-            loadMovies()
+        loadMovies()
+        return () => {
+            isMounted = false
         }
     }, [movieTitles])
     if (loading) {

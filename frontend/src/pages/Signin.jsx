@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useAuthStore } from "../store/authStore"
 import toast from "react-hot-toast"
@@ -27,7 +27,7 @@ const SignIn = () => {
 
                 <form onSubmit={handleLogin} className="flex flex-col space-y-4">
                     <input type="text" value={username} onChange={(e) => setUserName(e.target.value)} placeholder="username" className="w-full h-[50px] bg-[#333] text-white rounded px-5 text-base" />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password" className="w-full bg-[#333] text-white rounded px-5 text-base" />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password" className="w-full h-[50px] bg-[#333] text-white rounded px-5 text-base" />
                     {error && <p className="text-red-500">{error}</p>}
 
                     <button type="submit" disabled={isLoading} className="w-full bg-[#e50914] text-white py-2 rounded text-base hover:opacity-90 cursor-pointer">

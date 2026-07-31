@@ -1,9 +1,5 @@
 import { GoogleGenAI } from "@google/genai"
 
-const ai = new GoogleGenAI({
-    apiKey: import.meta.env.VITE_GOOGLE_GENAI_API_KEY || import.meta.env.VITE_GOGGLE_GENAI_API_KEY,
-})
-
 const config = {
     responseMimeType: "text/plain"
 }
@@ -11,7 +7,15 @@ const config = {
 const model = "gemini-2.0-flash"
 
 export async function getAIRecommendation(prompt) {
+    const apiKey = import.meta.env.VITE_GOOGLE_GENAI_API_KEY
+
+    if (!apiKey) {
+        console.error("Missing Gemini API Key. Please set VITE_GOOGLE_GENAI_API_KEY in your frontend/.env file.")
+        return null
+    }
+
     try {
+        const ai = new GoogleGenAI({ apiKey })
         const response = await ai.models.generateContent({
             model,
             config,

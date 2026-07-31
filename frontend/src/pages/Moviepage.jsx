@@ -1,6 +1,16 @@
 import { Play } from "lucide-react"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router"
+
+const tmdbToken = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN || "YOUR_TOKEN_HERE"
+
+const options = {
+    method: "GET",
+    headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${tmdbToken}`
+    },
+}
 
 const Moviepage = () => {
     const { id } = useParams()
@@ -8,13 +18,6 @@ const Moviepage = () => {
     const [recommendations, setRecommendations] = useState([])
     const [trailerKey, setTrailerKey] = useState(null)
 
-    const options = {
-        method: "GET",
-        headers: {
-            accept: "application/json",
-            Authorization: "Bearer YOUR_TOKEN_HERE"
-        },
-    }
     useEffect(() => {
         fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options)
             .then((res) => res.json())
@@ -44,7 +47,7 @@ const Moviepage = () => {
 
     if (!movie) {
         return (
-            <div className="flex items-center justifu-center h-screen">
+            <div className="flex items-center justify-center h-screen">
                 <span className="text-xl text-red-500">Loading...</span>
             </div>
         )
@@ -52,7 +55,7 @@ const Moviepage = () => {
     return (
         <div className="min-h-screen bg-[#181818] text-white">
             <div
-                className="relative h-[60vh] flex item-end"
+                className="relative h-[60vh] flex items-end"
                 style={{
                     backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
                     backgroundSize: "cover",
@@ -75,8 +78,8 @@ const Moviepage = () => {
                             <span>{movie.runtime} min</span>
                         </div>
                         <div className="flex flex-wrap gap-2 mb-4">
-                            {movie.genres.map((genre) => (
-                                <span className="bg-gray-800 px-3 py-1 rounded-full text-sm">
+                            {movie.genres?.map((genre) => (
+                                <span key={genre.id} className="bg-gray-800 px-3 py-1 rounded-full text-sm">
                                     {genre.name}
                                 </span>
                             ))}
