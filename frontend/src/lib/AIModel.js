@@ -1,7 +1,7 @@
-import { GoggleGenAI } from "@goggle/genai"
+import { GoogleGenAI } from "@google/genai"
 
-const ai = new GoggleGenAI({
-    apiKey: import.meta.env.VITE_GOGGLE_GENAI_API_KEY,
+const ai = new GoogleGenAI({
+    apiKey: import.meta.env.VITE_GOOGLE_GENAI_API_KEY || import.meta.env.VITE_GOGGLE_GENAI_API_KEY,
 })
 
 const config = {
@@ -10,7 +10,7 @@ const config = {
 
 const model = "gemini-2.0-flash"
 
-export async function getAIRecommandation(prompt) {
+export async function getAIRecommendation(prompt) {
     try {
         const response = await ai.models.generateContent({
             model,
